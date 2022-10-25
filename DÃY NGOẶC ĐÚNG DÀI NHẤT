@@ -1,0 +1,47 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package main;
+
+import java.util.*;
+/**
+ *
+ * @author 84374
+ */
+public class J07002 {
+    public static int solve(String s){
+        Stack<Integer> stack = new Stack<>();
+        Map<Integer, Integer> m = new HashMap<>();
+        int result = 0, token = 0;
+        for (int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            if (c == '('){
+                stack.add(i);
+            }
+            else if (!stack.empty() && c == ')'){
+                token = i - stack.peek() + 1;
+                m.put(stack.peek(), 0);
+                m.put(i, token);
+                if (m.containsKey(stack.peek() - 1)){
+                    token += m.get(stack.peek() - 1);
+                    m.put(i, token);
+                }
+                result = Math.max(result, token);
+                stack.pop();
+                
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int T = in.nextInt();
+        while (T-- > 0){
+            String a = in.next();
+            System.out.println(solve(a));
+        }
+    }
+}
